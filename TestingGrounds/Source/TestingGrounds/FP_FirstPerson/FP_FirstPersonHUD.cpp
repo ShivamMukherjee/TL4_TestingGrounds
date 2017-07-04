@@ -1,5 +1,6 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
+#include "TestingGrounds.h"
 #include "FP_FirstPersonHUD.h"
 #include "Engine/Canvas.h"
 #include "TextureResource.h"

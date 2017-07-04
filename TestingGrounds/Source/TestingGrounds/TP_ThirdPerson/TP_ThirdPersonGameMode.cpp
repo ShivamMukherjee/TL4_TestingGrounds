@@ -1,5 +1,6 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
+#include "TestingGrounds.h"
 #include "TP_ThirdPersonGameMode.h"
 #include "TP_ThirdPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
