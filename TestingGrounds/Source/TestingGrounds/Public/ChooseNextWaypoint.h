@@ -23,6 +23,4 @@ protected:
 
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComponent, uint8* NodeMemory) override;
-	
-	
 };
