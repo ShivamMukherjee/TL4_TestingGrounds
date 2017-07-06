@@ -4,4 +4,4 @@
 
 #include "CoreMinimal.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(TestingGroundsLog, Warning, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogTestingGrounds, Warning, All);

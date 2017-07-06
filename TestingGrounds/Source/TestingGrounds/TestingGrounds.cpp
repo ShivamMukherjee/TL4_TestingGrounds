@@ -5,4 +5,4 @@
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, TestingGrounds, "TestingGrounds" );
 
-DEFINE_LOG_CATEGORY(TestingGroundsLog);
+DEFINE_LOG_CATEGORY(LogTestingGrounds);
