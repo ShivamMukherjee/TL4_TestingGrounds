@@ -6,7 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "PatrolRoute.generated.h"
 
-
+/**
+ * A component that helps AI follow a certain patrol route.
+ */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TESTINGGROUNDS_API UPatrolRoute : public UActorComponent
 {
