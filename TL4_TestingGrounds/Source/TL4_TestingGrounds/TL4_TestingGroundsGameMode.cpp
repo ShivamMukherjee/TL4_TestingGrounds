@@ -5,12 +5,13 @@
 #include "TL4_TestingGroundsHUD.h"
 #include "Player/FirstPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Misc/Paths.h"
 
 ATL4_TestingGroundsGameMode::ATL4_TestingGroundsGameMode()
 	: Super()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Player/Character/FirstPersonCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(*FPaths::GetPath(TEXT("FirstPersonCharacter")));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class

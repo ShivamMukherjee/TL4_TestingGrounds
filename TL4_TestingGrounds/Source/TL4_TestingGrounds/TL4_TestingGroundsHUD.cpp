@@ -7,11 +7,12 @@
 #include "TextureResource.h"
 #include "CanvasItem.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Misc/Paths.h"
 
 ATL4_TestingGroundsHUD::ATL4_TestingGroundsHUD()
 {
 	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshairTexObj(TEXT("/Game/Player/Textures/FirstPersonCrosshair"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshairTexObj(*FPaths::GetPath(TEXT("FirstPersonCrosshair")));
 	CrosshairTex = CrosshairTexObj.Object;
 }
 
