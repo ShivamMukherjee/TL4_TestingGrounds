@@ -44,8 +44,6 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P, FP_Gun, and VR_Gun 
 	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
 
-	Gun = CreateDefaultSubobject<AGun>(TEXT("Gun"));
-
 	// Create VR Controllers.
 	R_MotionController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("R_MotionController"));
 	R_MotionController->Hand = EControllerHand::Right;
@@ -63,8 +61,21 @@ void AFirstPersonCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
-	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	Gun->GetGun()->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	if (!ensure(GunBlueprint))
+	{
+		UE_LOG(LogTestingGrounds, Warning, TEXT("Gun blueprint not assigned to %s"), *GetName());
+		return;
+	}
+	
+	Gun = GetWorld()->SpawnActor<AGun>(
+		GunBlueprint,
+		Mesh1P->GetSocketLocation(FName(TEXT("GripPoint"))),
+		Mesh1P->GetSocketRotation(FName(TEXT("GripPoint")))
+	);
+
+	// Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
+	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	Gun->AnimInstance = Mesh1P->GetAnimInstance();
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
 	if (bUsingMotionControllers)

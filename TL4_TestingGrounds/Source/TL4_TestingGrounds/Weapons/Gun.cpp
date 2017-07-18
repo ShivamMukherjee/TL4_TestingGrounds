@@ -1,7 +1,7 @@
 // Copyright (c) Shivam Mukherjee 2017
 
 #include "TL4_TestingGrounds.h"
-#include "Weapons/BallProjectile.h"
+#include "BallProjectile.h"
 #include "Player/FirstPersonCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -13,14 +13,12 @@
 // Sets default values
 AGun::AGun()
 {
-	Owner = Cast<AFirstPersonCharacter>(GetOwner());
-
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	//PrimaryActorTick.bCanEverTick = true;
 
 	// Create a gun mesh component
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	FP_Gun->SetOnlyOwnerSee(true);			// only the owning player will see this mesh
+	FP_Gun->SetOnlyOwnerSee(false);			// only the owning player will see this mesh
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
@@ -39,7 +37,7 @@ AGun::AGun()
 	VR_Gun->SetOnlyOwnerSee(true);			// only the owning player will see this mesh
 	VR_Gun->bCastDynamicShadow = false;
 	VR_Gun->CastShadow = false;
-	VR_Gun->SetupAttachment(Owner->GetRightMotionController());
+	//VR_Gun->SetupAttachment(GetRightMotionController());
 	VR_Gun->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 
 	VR_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("VR_MuzzleLocation"));
@@ -52,12 +50,12 @@ AGun::AGun()
 void AGun::OnFire()
 {
 	// try and fire a projectile
-	if (ProjectileClass != NULL)
+	if (ProjectileClass)
 	{
 		UWorld* const World = GetWorld();
-		if (World != NULL)
+		if (World)
 		{
-			if (Owner->bUsingMotionControllers)
+			if (/*Owner->bUsingMotionControllers*/ false)
 			{
 				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
 				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
@@ -65,9 +63,9 @@ void AGun::OnFire()
 			}
 			else
 			{
-				const FRotator SpawnRotation = Owner->GetControlRotation();
+				const FRotator SpawnRotation = FP_MuzzleLocation->GetComponentRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+				const FVector SpawnLocation = /*((FP_MuzzleLocation != nullptr) ?*/ FP_MuzzleLocation->GetComponentLocation() /*: GetActorLocation()) + SpawnRotation.RotateVector(GunOffset)*/;
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
@@ -80,17 +78,16 @@ void AGun::OnFire()
 	}
 
 	// try and play the sound if specified
-	if (FireSound != NULL)
+	if (FireSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
 
 	// try and play a firing animation if specified
-	if (FireAnimation != NULL)
+	if (FireAnimation)
 	{
 		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Owner->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != NULL)
+		if (AnimInstance)
 		{
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
