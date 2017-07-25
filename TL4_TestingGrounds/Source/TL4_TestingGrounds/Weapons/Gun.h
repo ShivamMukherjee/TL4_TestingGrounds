@@ -36,6 +36,7 @@ public:
 	FORCEINLINE USkeletalMeshComponent* GetVRGun() { return VR_Gun; }
 
 	/** Fires a projectile. */
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void OnFire();
 
 
