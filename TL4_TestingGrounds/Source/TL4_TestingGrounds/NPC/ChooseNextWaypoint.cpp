@@ -24,7 +24,7 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent& Own
 
 	if (PatrolPoints.Num() == 0)
 	{
-		UE_LOG(LogTestingGrounds, Error, TEXT("No patrol routes assigned on %s."), *ControlledPawn->GetName());
+		///UE_LOG(LogTestingGrounds, Warning, TEXT("No patrol routes assigned on %s."), *ControlledPawn->GetName());
 		return EBTNodeResult::Failed;
 	}
 

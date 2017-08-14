@@ -14,16 +14,16 @@
 // Sets default values
 AMannequin::AMannequin()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	/// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create a CameraComponent	
+	/// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
-	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
+	/// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
 	Mesh1P->SetOnlyOwnerSee(true);
 	Mesh1P->SetupAttachment(FirstPersonCameraComponent);
@@ -37,14 +37,33 @@ AMannequin::AMannequin()
 void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	Mesh3P = GetMesh();
+
 	if (!GunBlueprint)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Gun blueprint missing."));
+		UE_LOG(LogTestingGrounds, Warning, TEXT("Gun blueprint missing."));
 		return;
 	}
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
-	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); //Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
-	Gun->AnimInstance = Mesh1P->GetAnimInstance();
+
+	// Attach gun mesh component to Skeleton - doing it here because the skeleton is not yet created in the constructor
+	if (this->IsPlayerControlled())
+	{
+		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_FP"));
+	}
+	else
+	{
+		Gun->AttachToComponent(Mesh3P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
+	}
+
+	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
+	Gun->AnimInstance3P = Mesh3P->GetAnimInstance();
+
+	if (InputComponent)
+	{
+		InputComponent->BindAction("Fire", EInputEvent::IE_Pressed, this, &AMannequin::PullTrigger);
+	}
 }
 
 // Called every frame
@@ -61,7 +80,17 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-void AMannequin::Fire()
+void AMannequin::UnPossessed()
+{
+	Super::UnPossessed();
+	
+	if (Gun)
+	{
+		Gun->AttachToComponent(Mesh3P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
+	}
+}
+
+void AMannequin::PullTrigger()
 {
 	Gun->OnFire();
 }

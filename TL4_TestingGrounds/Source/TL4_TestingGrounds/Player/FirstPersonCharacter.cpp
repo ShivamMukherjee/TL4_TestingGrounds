@@ -69,13 +69,13 @@ void AFirstPersonCharacter::BeginPlay()
 	
 	Gun = GetWorld()->SpawnActor<AGun>(
 		GunBlueprint,
-		Mesh1P->GetSocketLocation(FName(TEXT("GripPoint"))),
-		Mesh1P->GetSocketRotation(FName(TEXT("GripPoint")))
+		Mesh1P->GetSocketLocation(FName(TEXT("GripPoint_FP"))),
+		Mesh1P->GetSocketRotation(FName(TEXT("GripPoint_FP")))
 	);
 
 	// Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
 	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	Gun->AnimInstance = Mesh1P->GetAnimInstance();
+	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
 	if (bUsingMotionControllers)
