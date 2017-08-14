@@ -62,16 +62,16 @@ public:
 	class USoundBase* FireSound = nullptr;
 
 	/** AnimMontages to play each time we fire */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UPROPERTY()
 	class UAnimMontage* FireAnimation1P = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	class UAnimMontage* FireAnimation3P = nullptr;
 
 	UPROPERTY()
 	class UAnimInstance* AnimInstance1P = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* FireAnimation3P = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimInstance* AnimInstance3P = nullptr;
 	
 };

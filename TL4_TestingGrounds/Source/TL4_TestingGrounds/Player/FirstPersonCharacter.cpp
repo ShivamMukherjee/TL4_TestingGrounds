@@ -69,8 +69,8 @@ void AFirstPersonCharacter::BeginPlay()
 	
 	Gun = GetWorld()->SpawnActor<AGun>(
 		GunBlueprint,
-		Mesh1P->GetSocketLocation(FName(TEXT("GripPoint_FP"))),
-		Mesh1P->GetSocketRotation(FName(TEXT("GripPoint_FP")))
+		Mesh1P->GetSocketLocation(FName(TEXT("GripPoint"))),
+		Mesh1P->GetSocketRotation(FName(TEXT("GripPoint")))
 	);
 
 	// Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor

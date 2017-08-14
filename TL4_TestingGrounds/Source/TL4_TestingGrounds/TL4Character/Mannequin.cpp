@@ -5,7 +5,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
-#include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "Weapons/Gun.h"
@@ -37,8 +36,6 @@ AMannequin::AMannequin()
 void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	Mesh3P = GetMesh();
 
 	if (!GunBlueprint)
 	{
@@ -54,11 +51,11 @@ void AMannequin::BeginPlay()
 	}
 	else
 	{
-		Gun->AttachToComponent(Mesh3P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
 	}
 
 	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
-	Gun->AnimInstance3P = Mesh3P->GetAnimInstance();
+	Gun->AnimInstance3P = GetMesh()->GetAnimInstance();
 
 	if (InputComponent)
 	{
@@ -86,7 +83,7 @@ void AMannequin::UnPossessed()
 	
 	if (Gun)
 	{
-		Gun->AttachToComponent(Mesh3P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_TP"));
 	}
 }
 
