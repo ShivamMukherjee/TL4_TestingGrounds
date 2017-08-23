@@ -1,20 +1,14 @@
 // Copyright (c) Shivam Mukherjee 2017
 
 #include "TL4_TestingGrounds.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "Engine/World.h"
-=======
->>>>>>> b3e76a998fe146bf80dbe24c13a8c88e2b4512ab
-=======
->>>>>>> b3e76a998fe146bf80dbe24c13a8c88e2b4512ab
 #include "Tile.h"
 
 
 // Sets default values
 ATile::ATile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
@@ -23,7 +17,7 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -33,12 +27,14 @@ void ATile::Tick(float DeltaTime)
 
 }
 
-void ATile::PlaceActors(const TSubclassOf<AActor>& ToSpawn, int32 MinSpawn, int32 MaxSpawn)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn)
 {
 	for (size_t i = 0; i < FMath::RandRange(MinSpawn, MaxSpawn); i++)
 	{
-		FVector SpawnPoint = FMath::RandPointInBox(FBox(FVector(0, -2000, 0), FVector(4000, 2000, 0)));
+		FVector SpawnPoint = FMath::RandPointInBox(FBox(FVector(0, -2000, 200), FVector(4000, 2000, 200)));
 		AActor* Spawned = GetWorld()->SpawnActor(ToSpawn);
+		Spawned->SetActorRelativeLocation(SpawnPoint);
+		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	}
 }
 
