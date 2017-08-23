@@ -2,6 +2,7 @@
 
 #include "TL4_TestingGrounds.h"
 #include "Engine/World.h"
+#include "DrawDebugHelpers.h"
 #include "Tile.h"
 
 
@@ -18,6 +19,8 @@ void ATile::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SphereCast(this->GetActorLocation(), 300);
+	SphereCast(this->GetActorLocation() + FVector(0, 0, 1000), 300);
 }
 
 // Called every frame
@@ -31,10 +34,28 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 {
 	for (size_t i = 0; i < FMath::RandRange(MinSpawn, MaxSpawn); i++)
 	{
-		FVector SpawnPoint = FMath::RandPointInBox(FBox(FVector(0, -2000, 200), FVector(4000, 2000, 200)));
+		FVector SpawnPoint = FMath::RandPointInBox(FBox(FVector(0, -2000, 0), FVector(4000, 2000, 0)));
 		AActor* Spawned = GetWorld()->SpawnActor(ToSpawn);
 		Spawned->SetActorRelativeLocation(SpawnPoint);
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	}
+}
+
+bool ATile::SphereCast(FVector Location, float Radius)
+{
+	FHitResult HitResult;
+	bool bHasHit = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		Location,
+		Location,
+		FQuat::Identity,
+		ECollisionChannel::ECC_Camera, /// TODO make custom channel
+		FCollisionShape::MakeSphere(Radius)
+	);
+
+	FColor DebugColor = bHasHit? FColor::Red : FColor::Green;
+	DrawDebugSphere(GetWorld(), Location, Radius, 32, DebugColor, true);
+	
+	return bHasHit;
 }
 
