@@ -2,7 +2,6 @@
 
 #include "TL4_TestingGrounds.h"
 #include "Engine/World.h"
-#include "DrawDebugHelpers.h"
 #include "Tile.h"
 
 
@@ -18,7 +17,7 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
 
 // Called every frame
@@ -33,12 +32,12 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 	int SpawnCount = FMath::RandRange(MinSpawn, MaxSpawn);
 	for (int32 i = 0; i < SpawnCount; i++)
 	{
-		FVector SpawnPoint;
+		FVector InSpawnPoint;
 		float RandomScale = FMath::RandRange(MinScale, MaxScale);
-		if (FoundEmptyLocation(SpawnPoint, Radius * RandomScale))
+		if (FoundEmptyLocation(InSpawnPoint, Radius * RandomScale))
 		{
 			float RandomYawRotation = FMath::RandRange(-180.f, +180.f);
-			PlaceActor(ToSpawn, SpawnPoint, RandomYawRotation, RandomScale);
+			PlaceActor(ToSpawn, InSpawnPoint, RandomYawRotation, RandomScale);
 		}
 	}
 }
@@ -48,6 +47,7 @@ bool ATile::FoundEmptyLocation(FVector& OutLocation, float Radius)
 {
 	FVector BoxOrigin(0, -2000, 0), BoxApex(4000, 2000, 0);
 	FBox Bounds(BoxOrigin, BoxApex);
+
 	const int32 MAX_ATTEMPTS = 100;
 
 	for (int32 i = 0; i < MAX_ATTEMPTS; i++)
@@ -78,7 +78,7 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 {
 	FHitResult HitResult;
 	FVector GlobalLocation = ActorToWorld().TransformPosition(Location);
-	bool bHasHit = GetWorld()->SweepSingleByChannel(
+	return !GetWorld()->SweepSingleByChannel(
 		HitResult,
 		GlobalLocation,
 		GlobalLocation,
@@ -86,9 +86,4 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 		ECollisionChannel::ECC_GameTraceChannel2,
 		FCollisionShape::MakeSphere(Radius)
 	);
-
-	/*FColor DebugColor = bHasHit? FColor::Red : FColor::Green;
-	DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, DebugColor, true);*/
-
-	return !bHasHit;
 }
