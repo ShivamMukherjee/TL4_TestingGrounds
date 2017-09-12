@@ -3,6 +3,7 @@
 #include "TL4_TestingGrounds.h"
 #include "Engine/World.h"
 #include "Tile.h"
+#include "ActorPool.h"
 
 
 // Sets default values
@@ -20,12 +21,19 @@ void ATile::BeginPlay()
 	
 }
 
+
+void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Pool->Return(NavMeshBoundsVolume);
+}
+
 // Called every frame
 void ATile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
+
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
@@ -39,6 +47,28 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 			float RandomYawRotation = FMath::RandRange(-180.f, +180.f);
 			PlaceActor(ToSpawn, InSpawnPoint, RandomYawRotation, RandomScale);
 		}
+	}
+}
+
+
+void ATile::SetActorPool(UActorPool* InPool)
+{
+	Pool = InPool;
+	PositionNavMeshBoundsVolume();
+}
+
+
+void ATile::PositionNavMeshBoundsVolume()
+{
+	NavMeshBoundsVolume = Pool->Checkout();
+	
+	if (NavMeshBoundsVolume == nullptr)
+	{
+		UE_LOG(LogTestingGrounds, Error, TEXT("Not enough actors in pool."));
+	}
+	else
+	{
+		NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
 	}
 }
 
@@ -63,6 +93,7 @@ bool ATile::FoundEmptyLocation(FVector& OutLocation, float Radius)
 
 	return false;
 }
+
 
 void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale)
 {

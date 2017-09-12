@@ -1,6 +1,7 @@
 // Copyright (c) Shivam Mukherjee 2017
 
 #include "TL4_TestingGrounds.h"
+#include "GameFramework/Actor.h"
 #include "ActorPool.h"
 
 
@@ -14,11 +15,21 @@ UActorPool::UActorPool()
 	// ...
 }
 
+
 AActor* UActorPool::Checkout()
 {
+	UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Checkout."), *GetName());
+
 	return nullptr;
 }
 
+
 void UActorPool::Return(AActor* ToReturn)
+{
+	UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Actor returned: {%s}"), *GetName(), *ToReturn->GetName());
+}
+
+
+void UActorPool::Add(AActor* ToAdd)
 {
 }
