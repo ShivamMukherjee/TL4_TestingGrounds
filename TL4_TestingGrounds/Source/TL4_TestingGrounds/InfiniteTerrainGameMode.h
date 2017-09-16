@@ -24,8 +24,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pool")
 	class UActorPool* NavMeshBoundsVolumePool;
 
+	void NewTileConquered();
 
 private:
 	void AddToPool(class ANavMeshBoundsVolume* VolumeToAdd);
 	
+	int32 Score;
 };

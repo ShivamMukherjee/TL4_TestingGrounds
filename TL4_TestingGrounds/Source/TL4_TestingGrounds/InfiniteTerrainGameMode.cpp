@@ -20,7 +20,13 @@ void AInfiniteTerrainGameMode::PopulateBoundsVolumePool()
 	}
 }
 
+void AInfiniteTerrainGameMode::NewTileConquered()
+{
+	Score++;
+	UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Score: %i"), *GetName(), Score);
+}
+
 void AInfiniteTerrainGameMode::AddToPool(ANavMeshBoundsVolume* VolumeToAdd)
 {
-	UE_LOG(LogTestingGrounds, Warning, TEXT("Found Actor: %s"), *VolumeToAdd->GetName())
+	NavMeshBoundsVolumePool->Add(VolumeToAdd);
 }

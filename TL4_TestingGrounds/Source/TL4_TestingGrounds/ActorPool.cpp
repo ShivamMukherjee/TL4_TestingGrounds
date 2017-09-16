@@ -20,16 +20,22 @@ AActor* UActorPool::Checkout()
 {
 	UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Checkout."), *GetName());
 
-	return nullptr;
+	if (Pool.Num() == 0)
+	{
+		return nullptr;
+	}
+
+	return Pool.Pop();
 }
 
 
 void UActorPool::Return(AActor* ToReturn)
 {
-	UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Actor returned: {%s}"), *GetName(), *ToReturn->GetName());
+	Add(ToReturn);
 }
 
 
 void UActorPool::Add(AActor* ToAdd)
 {
+	Pool.Push(ToAdd);
 }

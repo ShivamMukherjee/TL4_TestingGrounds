@@ -21,5 +21,9 @@ public:
 	void Return(AActor* ToReturn);
 
 	void Add(AActor* ToAdd);
+
+private:
+
+	TArray<AActor*> Pool;
 	
 };
