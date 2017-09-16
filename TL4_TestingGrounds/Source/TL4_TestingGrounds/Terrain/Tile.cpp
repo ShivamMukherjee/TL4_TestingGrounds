@@ -58,13 +58,13 @@ void ATile::RandomlyPlaceActors(const TSubclassOf<A>& ToSpawn, int32 MinSpawn, i
 }
 
 
-void ATile::PlaceActors(const TSubclassOf<AActor>& ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	RandomlyPlaceActors(ToSpawn, MinSpawn, MaxSpawn, Radius, MinScale, MaxScale);
 }
 
 
-void ATile::PlaceAIPawns(const TSubclassOf<APawn>& ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius)
+void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius)
 {
 	RandomlyPlaceActors(ToSpawn, MinSpawn, MaxSpawn, Radius, 1, 1);
 }
