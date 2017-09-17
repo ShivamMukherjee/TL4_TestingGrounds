@@ -3,6 +3,8 @@
 #include "TL4_TestingGrounds.h"
 #include "Engine/World.h"
 #include "AI/Navigation/NavigationSystem.h"
+
+#include "InfiniteTerrainGameMode.h"
 #include "ActorPool.h"
 #include "Tile.h"
 
@@ -31,6 +33,15 @@ void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Pool->Return(NavMeshBoundsVolume);
 
+}
+
+void ATile::UpdateTileConquered()
+{
+	if (!bIsTileConquered)
+	{
+		((AInfiniteTerrainGameMode*)GetWorld()->GetAuthGameMode())->NewTileConquered();
+		bIsTileConquered = true;
+	}
 }
 
 // Called every frame

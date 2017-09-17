@@ -38,6 +38,11 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Score")
+	void UpdateTileConquered();
+
+	bool bIsTileConquered = false;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
 	FVector NavigationBoundsOffset;
 
