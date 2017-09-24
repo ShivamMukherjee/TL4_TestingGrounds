@@ -31,8 +31,10 @@ void ATile::BeginPlay()
 
 void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Pool->Return(NavMeshBoundsVolume);
-
+	if (Pool && NavMeshBoundsVolume)
+	{
+		Pool->Return(NavMeshBoundsVolume);
+	}
 }
 
 void ATile::UpdateTileConquered()
@@ -111,32 +113,36 @@ bool ATile::FoundEmptyLocation(FVector& OutLocation, float Radius)
 
 void ATile::PlaceActor(const TSubclassOf<AActor>& ToSpawn, const FSpawnPosition& SpawnPosition)
 {
-	AActor* Spawned = GetWorld()->SpawnActor(ToSpawn);
+	AActor* Spawned = GetWorld()->SpawnActor<AActor>(
+		ToSpawn,
+		SpawnPosition.Location,
+		FRotator(0, SpawnPosition.YawRotation, 0)
+		);
 	
 	if (Spawned == nullptr)
 	{
 		return;
 	}
 
-	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	Spawned->SetActorRotation(FRotator(0, SpawnPosition.YawRotation, 0));
 	Spawned->SetActorScale3D(FVector(SpawnPosition.UniformScale));
 }
 
 
 void ATile::PlaceActor(const TSubclassOf<APawn>& ToSpawn, const FSpawnPosition& SpawnPosition)
 {
-	APawn* Spawned = GetWorld()->SpawnActor<APawn>(ToSpawn);
+	APawn* Spawned = GetWorld()->SpawnActor<APawn>(
+		ToSpawn,
+		SpawnPosition.Location,
+		FRotator(0, SpawnPosition.YawRotation, 0)
+		);
 	
 	if (Spawned == nullptr)
 	{
 		return;
 	}
 
-	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	Spawned->SetActorRotation(FRotator(0, SpawnPosition.YawRotation, 0));
 	Spawned->SpawnDefaultController();
 	Spawned->Tags.Add(FName(TEXT("PatrolGuard")));
 }
