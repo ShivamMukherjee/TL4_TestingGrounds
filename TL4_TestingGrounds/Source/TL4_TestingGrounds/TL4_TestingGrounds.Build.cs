@@ -8,6 +8,7 @@ public class TL4_TestingGrounds : ModuleRules
 	{
         // PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
+        PrivatePCHHeaderFile = "TL4_TestingGrounds.h";
         MinFilesUsingPrecompiledHeaderOverride = 1;
         bFasterWithoutUnity = true;
 
@@ -17,6 +18,7 @@ public class TL4_TestingGrounds : ModuleRules
             "CoreUObject",
             "Engine",
             "InputCore",
+            "NavigationSystem",
             "AIModule",
             "GameplayTasks",
             "HeadMountedDisplay"

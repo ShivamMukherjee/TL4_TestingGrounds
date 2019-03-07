@@ -2,7 +2,7 @@
 
 #include "TL4_TestingGrounds.h"
 #include "Engine/World.h"
-#include "AI/Navigation/NavigationSystem.h"
+#include "NavigationSystem.h"
 
 #include "InfiniteTerrainGameMode.h"
 #include "ActorPool.h"
@@ -39,9 +39,10 @@ void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ATile::UpdateTileConquered()
 {
-	if (!bIsTileConquered)
+	auto* AuthGameMode = Cast<AInfiniteTerrainGameMode>(GetWorld()->GetAuthGameMode());
+	if (AuthGameMode != nullptr && !bIsTileConquered)
 	{
-		((AInfiniteTerrainGameMode*)GetWorld()->GetAuthGameMode())->NewTileConquered();
+		AuthGameMode->NewTileConquered();
 		bIsTileConquered = true;
 	}
 }
@@ -71,15 +72,15 @@ void ATile::RandomlyPlaceActors(const TSubclassOf<A>& ToSpawn, int32 MinSpawn, i
 }
 
 
-void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawnCount, int32 MaxSpawnCount, float ClearanceRadius, float MinScale, float MaxScale)
 {
-	RandomlyPlaceActors(ToSpawn, MinSpawn, MaxSpawn, Radius, MinScale, MaxScale);
+	RandomlyPlaceActors(ToSpawn, MinSpawnCount, MaxSpawnCount, ClearanceRadius, MinScale, MaxScale);
 }
 
 
-void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius)
+void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int32 MinSpawnCount, int32 MaxSpawnCount, float ClearanceRadius)
 {
-	RandomlyPlaceActors(ToSpawn, MinSpawn, MaxSpawn, Radius, 1, 1);
+	RandomlyPlaceActors(ToSpawn, MinSpawnCount, MaxSpawnCount, ClearanceRadius, 1, 1);
 }
 
 
@@ -118,14 +119,11 @@ void ATile::PlaceActor(const TSubclassOf<AActor>& ToSpawn, const FSpawnPosition&
 		SpawnPosition.Location,
 		FRotator(0, SpawnPosition.YawRotation, 0)
 		);
-	
-	if (Spawned == nullptr)
+	if (Spawned != nullptr)
 	{
-		return;
+		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+		Spawned->SetActorScale3D(FVector(SpawnPosition.UniformScale));
 	}
-
-	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	Spawned->SetActorScale3D(FVector(SpawnPosition.UniformScale));
 }
 
 
@@ -136,19 +134,16 @@ void ATile::PlaceActor(const TSubclassOf<APawn>& ToSpawn, const FSpawnPosition& 
 		SpawnPosition.Location,
 		FRotator(0, SpawnPosition.YawRotation, 0)
 		);
-	
-	if (Spawned == nullptr)
+	if (Spawned != nullptr)
 	{
-		return;
+		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+		Spawned->SpawnDefaultController();
+		Spawned->Tags.Add(FName(TEXT("PatrolGuard")));
 	}
-
-	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	Spawned->SpawnDefaultController();
-	Spawned->Tags.Add(FName(TEXT("PatrolGuard")));
 }
 
 
-bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
+bool ATile::CanSpawnAtLocation(FVector Location, float ClearanceRadius)
 {
 	FHitResult HitResult;
 	FVector GlobalLocation = ActorToWorld().TransformPosition(Location);
@@ -158,7 +153,7 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 		GlobalLocation,
 		FQuat::Identity,
 		ECollisionChannel::ECC_GameTraceChannel2,
-		FCollisionShape::MakeSphere(Radius)
+		FCollisionShape::MakeSphere(ClearanceRadius)
 	);
 }
 
@@ -175,6 +170,6 @@ void ATile::PositionNavMeshBoundsVolume()
 	{
 		UE_LOG(LogTestingGrounds, Warning, TEXT("[%s] Checked out: {%s}"), *GetName(), *NavMeshBoundsVolume->GetName());
 		NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
-		GetWorld()->GetNavigationSystem()->Build();
+		FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld())->Build();
 	}
 }

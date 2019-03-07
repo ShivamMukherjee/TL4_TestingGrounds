@@ -1,0 +1,128 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "TL4_TestingGrounds (Debug)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGrounds Win64 Debug Build",
+			"program": "C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\Binaries\\Win64\\TL4_TestingGrounds-Win64-Debug.exe",
+			"args": [
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGrounds (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGrounds Win64 DebugGame Build",
+			"program": "C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\Binaries\\Win64\\TL4_TestingGrounds-Win64-DebugGame.exe",
+			"args": [
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGrounds (Development)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGrounds Win64 Development Build",
+			"program": "C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\Binaries\\Win64\\TL4_TestingGrounds.exe",
+			"args": [
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGrounds (Shipping)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGrounds Win64 Shipping Build",
+			"program": "C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\Binaries\\Win64\\TL4_TestingGrounds-Win64-Shipping.exe",
+			"args": [
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGrounds (Test)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGrounds Win64 Test Build",
+			"program": "C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\Binaries\\Win64\\TL4_TestingGrounds-Win64-Test.exe",
+			"args": [
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGroundsEditor (Debug)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGroundsEditor Win64 Debug Build",
+			"program": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Binaries\\Win64\\UE4Editor-Win64-Debug.exe",
+			"args": [
+				"C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\TL4_TestingGrounds.uproject"
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGroundsEditor (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGroundsEditor Win64 DebugGame Build",
+			"program": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Binaries\\Win64\\UE4Editor.exe",
+			"args": [
+				"C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\TL4_TestingGrounds.uproject"
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "TL4_TestingGroundsEditor (Development)",
+			"request": "launch",
+			"preLaunchTask": "TL4_TestingGroundsEditor Win64 Development Build",
+			"program": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Binaries\\Win64\\UE4Editor.exe",
+			"args": [
+				"C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\TL4_TestingGrounds.uproject"
+			],
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Generate Project Files",
+			"type": "clr",
+			"request": "launch",
+			"program": "C:\\Program Files\\Epic Games\\UE_4.21\\Engine\\Binaries\\DotNET\\UnrealBuildTool.exe",
+			"console": "externalTerminal",
+			"args": [
+				"-projectfiles",
+				"-vscode",
+				"-project=\"C:\\Users\\shiva\\Documents\\UnrealProjects\\TL4_TestingGrounds\\TL4_TestingGrounds\\TL4_TestingGrounds.uproject\"",
+				"-game",
+				"-engine"
+			],
+			"internalConsoleOptions": "openOnSessionStart",
+			"cwd": "C:\\Program Files\\Epic Games\\UE_4.21"
+		}
+	]
+}
